@@ -11,8 +11,6 @@ public class ExitCommand implements Command {
             }
             user.unfree();
             user.unregister();
-            //TODO: log
-            System.out.printf("user %s has left(exit)%n", user.getUserName());
     }
 
 

@@ -9,8 +9,6 @@ public class LeaveCommand implements Command {
 
     public void execute() {
         user.getChat().end();
-        //TODO: log
-        System.out.printf("user %s has left(leave)%n", user.getUserName());
     }
 
 

@@ -1,12 +1,15 @@
 package com.aleksandrtikh.tschat.server;
 
 import com.aleksandrtikh.tschat.Message;
+import org.apache.log4j.Logger;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Session;
 import java.io.IOException;
 
 public class WrongCommand implements Command {
+    private static Logger log = Logger.getLogger(WrongCommand.class);
+
     private final String message;
     private final String cause;
     private final Session session;
@@ -17,11 +20,8 @@ public class WrongCommand implements Command {
         try {
             session.getBasicRemote().sendObject(error);
         } catch (IOException | EncodeException e) {
-            e.printStackTrace();
+           log.error(e);
         }
-        // TODO: log
-            System.out.print(errorMessage);
-
     }
 
     public WrongCommand(Session session, String message, String cause) {
