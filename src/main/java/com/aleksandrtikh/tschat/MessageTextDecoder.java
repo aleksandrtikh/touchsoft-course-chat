@@ -1,4 +1,4 @@
-package com.alelsandrtikh.tschat;
+package com.aleksandrtikh.tschat;
 
 import com.google.gson.Gson;
 import javax.websocket.DecodeException;

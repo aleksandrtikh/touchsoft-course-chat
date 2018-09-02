@@ -1,6 +1,6 @@
 package com.aleksandrtikh.tschat.server;
 
-import com.alelsandrtikh.tschat.Message;
+import com.aleksandrtikh.tschat.Message;
 
 public class SaveMessageCommand implements Command {
     private final User user;
@@ -8,8 +8,9 @@ public class SaveMessageCommand implements Command {
 
     public void execute() {
             user.getMessageBuffer().offer(message);
-            //TODO: log
-            System.out.println("message saved");
+            if (!UserDataRepository.getUserBooker().isUserFree(user)) {
+                user.free();
+            }
     }
 
     public SaveMessageCommand(User user, Message message) {

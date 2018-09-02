@@ -5,9 +5,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class UserBookerImpl implements UserBooker {
 
-    private ConcurrentLinkedQueue<User> freeCustomers = new ConcurrentLinkedQueue<>();
-    private ConcurrentLinkedQueue<User> freeAgents = new ConcurrentLinkedQueue<>();
-    private HashSet<Runnable> freeEventListeners = new HashSet<>();
+    private final ConcurrentLinkedQueue<User> freeCustomers = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedQueue<User> freeAgents = new ConcurrentLinkedQueue<>();
+    private final HashSet<Runnable> freeEventListeners = new HashSet<>();
 
     @Override
     public boolean isUserFree(User user) {

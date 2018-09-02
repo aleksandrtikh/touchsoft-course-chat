@@ -1,4 +1,4 @@
-package com.alelsandrtikh.tschat;
+package com.aleksandrtikh.tschat;
 
 import javax.websocket.EncodeException;
 import javax.websocket.Encoder;

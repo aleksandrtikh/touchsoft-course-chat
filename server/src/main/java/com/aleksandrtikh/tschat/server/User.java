@@ -1,16 +1,24 @@
 package com.aleksandrtikh.tschat.server;
 
-import com.alelsandrtikh.tschat.Message;
 
+
+import com.aleksandrtikh.tschat.Message;
+import org.apache.log4j.Logger;
+
+import javax.websocket.EncodeException;
 import javax.websocket.Session;
+import java.io.IOException;
 import java.util.LinkedList;
 
 public class User {
+
+    private static final Logger log = Logger.getLogger(User.class);
 
 	private String userName;
 	private Role role;
 	private LinkedList<Message> messageBuffer;
 	private Session session;
+
 
 	public String getUserName() {
 		return userName;
@@ -41,7 +49,7 @@ public class User {
 	}
 
     public boolean hasInterlocutor() {
-	    return WebSocketServerRunner.getActiveChats().containsKey(this);
+	    return UserDataRepository.getActiveChats().containsKey(this);
     }
 
     public boolean hasSavedMessages() {
@@ -49,32 +57,30 @@ public class User {
     }
 
 	public Chat getChat() {
-		return WebSocketServerRunner.getActiveChats().get(this);
+		return UserDataRepository.getActiveChats().get(this);
 	}
 
     public void unfree() {
-	    WebSocketServerRunner.getUserBooker().bookUser(this);
+	    UserDataRepository.getUserBooker().bookUser(this);
     }
 
 	public void unregister() {
-	    WebSocketServerRunner.getExistingUsers().remove(this.session,this);
+	    UserDataRepository.getExistingUsers().remove(this.session,this);
+        log.info(String.format("%s %s logged out.", role,userName));
 	}
 
 	public User getInterlocutor() {
 	    Chat chat = this.getChat();
-        switch (this.role) {
-            case CUSTOMER: return chat.getAgent();
-            case AGENT: return chat.getCustomer();
-            default: throw new IllegalArgumentException("User has an unknown role");
-        }
+        return chat.getInterlocutor(this);
 	}
 
     public void register() {
-	    WebSocketServerRunner.getExistingUsers().put(this.session, this);
+		UserDataRepository.getExistingUsers().put(this.session, this);
+        log.info(String.format("%s %s logged in.", role,userName));
     }
 
     public void free() {
-        UserBooker booker = WebSocketServerRunner.getUserBooker();
+        UserBooker booker = UserDataRepository.getUserBooker();
         switch (this.role) {
             case CUSTOMER: booker.freeCustomer(this);
                 break;
@@ -84,13 +90,13 @@ public class User {
         }
     }
 
-    public boolean tryFindInterlocutor() {
-	    if (this.role == Role.CUSTOMER && !WebSocketServerRunner.getUserBooker().isUserFree(this)) {
-	        this.free();
-	        return this.hasInterlocutor();
-        } else return false;
+    public void send(Message message) {
+		try {
+			this.session.getBasicRemote().sendObject(message);
+		} catch (IOException | EncodeException e) {
+			log.error(e);
+		}
     }
-
 
     public enum Role {
         CUSTOMER, AGENT
