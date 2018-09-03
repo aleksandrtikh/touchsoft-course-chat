@@ -39,7 +39,7 @@ public class Chat {
         return customer;
     }
 
-    public User getInterlocutor(User user) {
+   public User getInterlocutor(User user) {
         if (user == agent) return customer;
         else if (user == customer) return agent;
         else return null;

@@ -13,13 +13,6 @@ public class Message {
     private String date;
     private MessageType type;
 
-
-    public MessageType getType() {
-        return type;
-    }
-
-
-
     public Message(String content, MessageType type, String username) {
         this.content = content;
         this.date = new Date().toString();
@@ -34,16 +27,16 @@ public class Message {
         this.type = type;
         this.date = new Date().toString();
     }
+	
+	 public MessageType getType() {
+        return type;
+    }
 
     public String getCommandPrefix() {
         return this.commandArgs[0];
     }
-
-    public boolean isCommand() {
-        return type == MessageType.COMMAND;
-    }
-
-    public String[] getCommandArgs() {
+	
+	public String[] getCommandArgs() {
         return commandArgs;
     }
 
@@ -55,6 +48,9 @@ public class Message {
         return username;
     }
 
+    public boolean isCommand() {
+        return type == MessageType.COMMAND;
+    }
 
     public enum MessageType {
         COMMON_MESSAGE, COMMAND, CONFIRMATION, ERROR
