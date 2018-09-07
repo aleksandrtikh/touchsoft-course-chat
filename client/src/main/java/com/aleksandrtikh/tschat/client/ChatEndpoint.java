@@ -2,9 +2,9 @@ package com.aleksandrtikh.tschat.client;
 
 
 
-import com.aleksandrtikh.tschat.Message;
-import com.aleksandrtikh.tschat.MessageTextDecoder;
-import com.aleksandrtikh.tschat.MessageTextEncoder;
+import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.shared.MessageTextDecoder;
+import com.aleksandrtikh.tschat.shared.MessageTextEncoder;
 import org.apache.log4j.Logger;
 
 import javax.websocket.*;

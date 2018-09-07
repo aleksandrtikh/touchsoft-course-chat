@@ -1,11 +1,8 @@
-package com.aleksandrtikh.tschat;
+package com.aleksandrtikh.tschat.shared;
 
 import java.util.Date;
 
 public class Message {
-    public void setUsername(String username) {
-        this.username = username;
-    }
 
     private String username;
     private String[] commandArgs;

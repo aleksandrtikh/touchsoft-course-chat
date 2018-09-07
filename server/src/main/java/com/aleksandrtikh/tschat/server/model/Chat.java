@@ -1,11 +1,12 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.model;
 
 
-import com.aleksandrtikh.tschat.Message;
+import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.server.repository.UserDataRepository;
 import org.apache.log4j.Logger;
-
 import java.util.LinkedList;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class Chat {

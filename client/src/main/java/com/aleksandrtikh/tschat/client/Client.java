@@ -1,7 +1,7 @@
 package com.aleksandrtikh.tschat.client;
 
 
-import com.aleksandrtikh.tschat.Message;
+import com.aleksandrtikh.tschat.shared.Message;
 
 import javax.websocket.*;
 import java.io.IOException;

@@ -1,7 +1,12 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.controller;
 
 
-import com.aleksandrtikh.tschat.Message;
+import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.server.command.Command;
+import com.aleksandrtikh.tschat.server.model.Chat;
+import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.repository.UserDataRepository;
+
 import javax.websocket.Session;
 
 public class IncomingMessageHandler implements Runnable {

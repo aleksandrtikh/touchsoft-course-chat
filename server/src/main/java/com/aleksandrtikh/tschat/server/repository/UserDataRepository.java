@@ -1,4 +1,8 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.repository;
+
+import com.aleksandrtikh.tschat.server.UserBooker;
+import com.aleksandrtikh.tschat.server.model.Chat;
+import com.aleksandrtikh.tschat.server.model.User;
 
 import javax.websocket.Session;
 import java.util.concurrent.ConcurrentHashMap;

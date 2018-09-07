@@ -1,6 +1,8 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.command;
 
-import com.aleksandrtikh.tschat.Message;
+
+import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.shared.Message;
 
 public class RegisterCommand implements Command {
     public static final String COM_PREFIX = "/REGISTER";

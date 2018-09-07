@@ -1,6 +1,8 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.command;
 
-import com.aleksandrtikh.tschat.Message;
+import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.repository.UserDataRepository;
 
 public class SaveMessageCommand implements Command {
     private final User user;

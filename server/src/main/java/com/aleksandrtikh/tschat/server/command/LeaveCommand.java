@@ -1,6 +1,7 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.command;
 
 
+import com.aleksandrtikh.tschat.server.model.User;
 
 public class LeaveCommand implements Command {
 

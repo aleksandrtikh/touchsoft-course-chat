@@ -1,6 +1,9 @@
 package com.aleksandrtikh.tschat.server;
 
-import com.aleksandrtikh.tschat.Message;
+import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.server.model.Chat;
+import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.repository.UserDataRepository;
 import org.junit.Before;
 import org.junit.Test;
 

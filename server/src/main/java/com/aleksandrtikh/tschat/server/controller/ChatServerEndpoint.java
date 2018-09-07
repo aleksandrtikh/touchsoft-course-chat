@@ -1,11 +1,14 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.controller;
 
-import com.aleksandrtikh.tschat.Message;
-import com.aleksandrtikh.tschat.MessageTextDecoder;
-import com.aleksandrtikh.tschat.MessageTextEncoder;
+import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.repository.UserDataRepository;
+import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.shared.MessageTextDecoder;
+import com.aleksandrtikh.tschat.shared.MessageTextEncoder;
 import org.apache.log4j.Logger;
+
 import javax.websocket.*;
-import javax.websocket.server.*;
+import javax.websocket.server.ServerEndpoint;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

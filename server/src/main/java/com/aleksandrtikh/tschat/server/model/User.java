@@ -1,8 +1,10 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.model;
 
 
 
-import com.aleksandrtikh.tschat.Message;
+import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.server.UserBooker;
+import com.aleksandrtikh.tschat.server.repository.UserDataRepository;
 import org.apache.log4j.Logger;
 
 import javax.websocket.EncodeException;

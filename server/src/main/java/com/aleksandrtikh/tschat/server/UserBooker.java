@@ -1,5 +1,7 @@
 package com.aleksandrtikh.tschat.server;
 
+import com.aleksandrtikh.tschat.server.model.User;
+
 public interface UserBooker {
 
     boolean isUserFree(User user);

@@ -1,6 +1,8 @@
 package com.aleksandrtikh.tschat.server;
 
-import com.aleksandrtikh.tschat.Message;
+import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.server.command.RegisterCommand;
+import com.aleksandrtikh.tschat.server.model.User;
 import org.junit.Test;
 
 import java.util.Objects;

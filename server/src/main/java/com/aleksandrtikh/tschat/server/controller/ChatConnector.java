@@ -1,5 +1,10 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.controller;
 
+
+import com.aleksandrtikh.tschat.server.UserBooker;
+import com.aleksandrtikh.tschat.server.model.Chat;
+import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.repository.UserDataRepository;
 
 public class ChatConnector implements Runnable {
 
