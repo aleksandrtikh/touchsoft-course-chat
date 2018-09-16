@@ -2,7 +2,7 @@ package com.aleksandrtikh.tschat.server.controller;
 
 import com.aleksandrtikh.tschat.server.command.*;
 import com.aleksandrtikh.tschat.server.model.User;
-import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.shared.ChatMessage;
 
 import javax.websocket.Session;
 
@@ -10,10 +10,10 @@ public class CommandParser {
 
     private final Session session;
     private final User user;
-    private final Message message;
+    private final ChatMessage message;
     private final User interlocutor;
 
-    public CommandParser(Session session, User user, Message message, User interlocutor) {
+    public CommandParser(Session session, User user, ChatMessage message, User interlocutor) {
         this.session = session;
         this.user = user;
         this.message = message;
@@ -22,7 +22,7 @@ public class CommandParser {
 
 
     private Command parseRegisterCommand() {
-        if (message.getCommandPrefix().equalsIgnoreCase(RegisterCommand.COM_PREFIX)) {
+        if (message.getType() == ChatMessage.MessageType.REGISTER) {
             final String AGENT_ROLE_NAME = "AGENT";
             final String CUSTOMER_ROLE_NAME = "CUSTOMER";
             String[] args = message.getCommandArgs();
@@ -48,12 +48,20 @@ public class CommandParser {
         if (user == null) {
             return parseRegisterCommand();
         } else {
-            if (message.isCommand()) {
-                return parseMiscCommand();
-            } else {
-                return parseSendCommand();
+            switch (message.getType()) {
+                case SEND:
+                    return parseSendCommand();
+                case LEAVE:
+                    return parseLeaveCommand();
+                case EXIT:
+                    return parseExitCommand();
+                default: return new WrongCommand(user.getSession(), message.getContent(), WrongCommand.Cause.WRONG_MESSAGE_TYPE);
             }
         }
+    }
+
+    private Command parseExitCommand() {
+        return new ExitCommand(user);
     }
 
     private Command parseSendCommand() {
@@ -63,26 +71,19 @@ public class CommandParser {
                 case CUSTOMER:
                     return new SaveMessageCommand(user, message);
                 case AGENT:
-                    return new WrongCommand(session, message.getContent(), WrongCommand.Cause.NO_CHAT);
+                    return new WrongCommand(user.getSession(), message.getContent(), WrongCommand.Cause.NO_CHAT);
                 default:
                     return null;
             }
         }
     }
 
-    private Command parseMiscCommand() {
-        switch (message.getCommandPrefix().toUpperCase()) {
-            case LeaveCommand.COM_PREFIX: {
-                if (interlocutor == null) {
-                    return new WrongCommand(session, message.getContent(), WrongCommand.Cause.NO_CHAT);
-                } else if (user.getRole() == User.Role.AGENT) {
-                    return new WrongCommand(session, message.getContent(), WrongCommand.Cause.ACTION_DENIED);
-                } else return new LeaveCommand(user);
-            }
-            case ExitCommand.COM_PREFIX:
-                return new ExitCommand(user);
-            default:
-                return new WrongCommand(session, message.getContent(), null);
-        }
+
+    private Command parseLeaveCommand() {
+        if (interlocutor == null) {
+            return new WrongCommand(user.getSession(), message.getContent(), WrongCommand.Cause.NO_CHAT);
+        } else if (user.getRole() == User.Role.AGENT) {
+            return new WrongCommand(user.getSession(), message.getContent(), WrongCommand.Cause.ACTION_DENIED);
+        } else return new LeaveCommand(user);
     }
 }

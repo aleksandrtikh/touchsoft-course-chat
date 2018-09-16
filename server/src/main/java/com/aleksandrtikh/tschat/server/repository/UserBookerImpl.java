@@ -1,6 +1,7 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.repository;
 
 import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.repository.UserBooker;
 
 import java.util.HashSet;
 import java.util.concurrent.ConcurrentLinkedQueue;

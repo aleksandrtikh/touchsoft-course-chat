@@ -2,17 +2,18 @@ package com.aleksandrtikh.tschat.server.command;
 
 
 import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.service.UserService;
 
 public class ExitCommand implements Command {
-    public static final String COM_PREFIX = "/EXIT";
     private final User user;
+    private final UserService service = new UserService();
 
     public void execute() {
-            if (user.hasInterlocutor()) {
-                user.getChat().end();
+            if (service.isUserInChat(user)) {
+                new LeaveCommand(user).execute();
             }
-            user.unfree();
-            user.unregister();
+            service.unfreeUser(user);
+            service.unregisterUser(user);
     }
 
 

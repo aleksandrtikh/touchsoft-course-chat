@@ -2,7 +2,7 @@ package com.aleksandrtikh.tschat.client;
 
 
 
-import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.shared.ChatMessage;
 import com.aleksandrtikh.tschat.shared.MessageTextDecoder;
 import com.aleksandrtikh.tschat.shared.MessageTextEncoder;
 import org.apache.log4j.Logger;
@@ -29,8 +29,8 @@ public class ChatEndpoint {
     }
 
     @OnMessage
-    public void onMessage(Message message) {
-        if (message.getType() == Message.MessageType.CONFIRMATION) {
+    public void onMessage(ChatMessage message) {
+        if (message.getType() == ChatMessage.MessageType.CONFIRM) {
             Client.isRegistered = true;
             Client.username = message.getUsername();
             System.out.printf("Successfully registered as %s%n", message.getUsername());
@@ -54,7 +54,7 @@ public class ChatEndpoint {
         System.exit(1);
     }
 
-    public void sendMessage(Message message) {
+    public void sendMessage(ChatMessage message) {
         try {
             this.userSession.getBasicRemote().sendObject(message);
         } catch (IOException | EncodeException e) {

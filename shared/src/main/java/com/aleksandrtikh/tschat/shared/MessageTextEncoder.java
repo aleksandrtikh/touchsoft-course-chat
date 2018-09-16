@@ -5,12 +5,12 @@ import javax.websocket.Encoder;
 import javax.websocket.EndpointConfig;
 import com.google.gson.*;
 
-public class MessageTextEncoder implements Encoder.Text<Message> {
+public class MessageTextEncoder implements Encoder.Text<ChatMessage> {
 
     private Gson encoder = new Gson();
 
     @Override
-    public String encode(Message message) throws EncodeException {
+    public String encode(ChatMessage message) throws EncodeException {
         return encoder.toJson(message);
     }
 

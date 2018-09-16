@@ -1,6 +1,6 @@
 package com.aleksandrtikh.tschat.server.command;
 
-import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.shared.ChatMessage;
 import com.aleksandrtikh.tschat.server.WebSocketServerRunner;
 import org.apache.log4j.Logger;
 
@@ -16,8 +16,8 @@ public class WrongCommand implements Command {
     private final Session session;
 
     public void execute() {
-        String errorMessage = String.format("Message error: %s in command: %s", cause.getErrorMessage(), message);
-        Message error = new Message(errorMessage, Message.MessageType.ERROR, WebSocketServerRunner.SERVER_NAME);
+        String errorMessage = String.format("ChatMessage error: %s in command: %s", cause.getErrorMessage(), message);
+        ChatMessage error = new ChatMessage(errorMessage, ChatMessage.MessageType.ERROR, WebSocketServerRunner.SERVER_NAME);
         try {
             session.getBasicRemote().sendObject(error);
         } catch (IOException | EncodeException e) {

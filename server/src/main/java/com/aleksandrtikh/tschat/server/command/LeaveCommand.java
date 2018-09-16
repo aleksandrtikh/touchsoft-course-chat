@@ -2,14 +2,17 @@ package com.aleksandrtikh.tschat.server.command;
 
 
 import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.repository.ChatRepository;
+import com.aleksandrtikh.tschat.server.service.ChatService;
 
 public class LeaveCommand implements Command {
 
     private final User user;
-    public static final String COM_PREFIX = "/LEAVE";
+    ChatService service = new ChatService();
 
     public void execute() {
-        user.getChat().end();
+        ChatRepository repository = ChatRepository.getInstance();
+        service.endChat(repository.getChatByUser(user));
     }
 
 

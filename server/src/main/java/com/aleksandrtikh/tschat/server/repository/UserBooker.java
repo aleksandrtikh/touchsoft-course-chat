@@ -1,4 +1,4 @@
-package com.aleksandrtikh.tschat.server;
+package com.aleksandrtikh.tschat.server.repository;
 
 import com.aleksandrtikh.tschat.server.model.User;
 

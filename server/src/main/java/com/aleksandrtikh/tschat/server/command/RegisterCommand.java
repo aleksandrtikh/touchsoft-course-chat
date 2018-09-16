@@ -2,18 +2,20 @@ package com.aleksandrtikh.tschat.server.command;
 
 
 import com.aleksandrtikh.tschat.server.model.User;
-import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.server.service.UserService;
+import com.aleksandrtikh.tschat.shared.ChatMessage;
 
 public class RegisterCommand implements Command {
-    public static final String COM_PREFIX = "/REGISTER";
+
+    private UserService service = new UserService();
     private final User user;
 
     public void execute() {
-        user.register();
-        Message confirmationMessage = new Message("successfully registered", Message.MessageType.CONFIRMATION, user.getUserName());
+        service.registerUser(user);
+        ChatMessage confirmationMessage = new ChatMessage("successfully registered", ChatMessage.MessageType.CONFIRM, user.getUserName());
         user.send(confirmationMessage);
         if (user.getRole() == User.Role.AGENT) {
-            user.free();
+            service.freeUser(user);
         }
     }
 

@@ -1,7 +1,7 @@
 package com.aleksandrtikh.tschat.client;
 
 
-import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.shared.ChatMessage;
 
 import javax.websocket.*;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class Client {
     private static final Logger log = Logger.getLogger(Client.class);
     static boolean isWorking = true;
     static boolean isRegistered = false;
-    private static final URI serverURI = URI.create("ws://localhost:8080/coursechat");
+    private static final URI serverURI = URI.create("ws://localhost:8080/chat");
     static String username = "user";
     private static Session session;
     private static ChatEndpoint endpoint;
@@ -41,7 +41,7 @@ public class Client {
         Scanner reader = new Scanner(System.in);
         while (isWorking) {
             String line = reader.nextLine();
-            Message message = Message.parse(line, username);
+            ChatMessage message = ChatMessage.parse(line, username);
             if (line.toUpperCase().startsWith("/EXIT")) {
                 exit(message);
             } else if (isRegistered == line.toUpperCase().startsWith("/REGISTER")) { // If registered, can't register again.
@@ -50,7 +50,7 @@ public class Client {
         }
     }
 
-    private static void exit(Message message) throws IOException {
+    private static void exit(ChatMessage message) throws IOException {
         if (isRegistered) {
             endpoint.sendMessage(message);
         }

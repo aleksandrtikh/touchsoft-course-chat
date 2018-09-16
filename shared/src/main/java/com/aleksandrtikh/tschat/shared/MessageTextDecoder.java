@@ -5,11 +5,11 @@ import javax.websocket.DecodeException;
 import javax.websocket.Decoder;
 import javax.websocket.EndpointConfig;
 
-public class MessageTextDecoder implements Decoder.Text<Message>{
+public class MessageTextDecoder implements Decoder.Text<ChatMessage>{
 
     @Override
-    public Message decode(String s) throws DecodeException {
-        return new Gson().fromJson(s,Message.class);
+    public ChatMessage decode(String s) throws DecodeException {
+        return new Gson().fromJson(s, ChatMessage.class);
     }
 
     @Override

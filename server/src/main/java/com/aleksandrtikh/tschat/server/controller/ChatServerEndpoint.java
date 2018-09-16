@@ -1,8 +1,11 @@
 package com.aleksandrtikh.tschat.server.controller;
 
 import com.aleksandrtikh.tschat.server.model.User;
+import com.aleksandrtikh.tschat.server.repository.ChatRepository;
 import com.aleksandrtikh.tschat.server.repository.UserDataRepository;
-import com.aleksandrtikh.tschat.shared.Message;
+import com.aleksandrtikh.tschat.server.service.ChatService;
+import com.aleksandrtikh.tschat.server.service.UserService;
+import com.aleksandrtikh.tschat.shared.ChatMessage;
 import com.aleksandrtikh.tschat.shared.MessageTextDecoder;
 import com.aleksandrtikh.tschat.shared.MessageTextEncoder;
 import org.apache.log4j.Logger;
@@ -12,21 +15,25 @@ import javax.websocket.server.ServerEndpoint;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@ServerEndpoint(value = "/coursechat", encoders = MessageTextEncoder.class, decoders = MessageTextDecoder.class)
+@ServerEndpoint(value = "/chat", encoders = MessageTextEncoder.class, decoders = MessageTextDecoder.class)
 public class ChatServerEndpoint extends Endpoint {
 
     private static final ExecutorService freeUserExecutors = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private static final Logger log = Logger.getLogger(ChatServerEndpoint.class);
-    private UserDataRepository repository = UserDataRepository.getInstance();
+    private UserDataRepository userDataRepository = UserDataRepository.getInstance();
+    private ChatRepository chatRepository = ChatRepository.getInstance();
+    private UserService userService = new UserService();
+    private ChatService chatService = new ChatService();
+
 
     @OnMessage
-    public void onMessage(Session session, Message message) {
+    public void onMessage(Session session, ChatMessage message) {
         ExecutorService executor;
-        User user = repository.getExistingUsers().get(session);
-        if (user != null && user.hasInterlocutor()) {
-            executor = user.getChat().getExecutor();
+        User user = userDataRepository.getExistingUsers().get(session);
+        if (user != null && userService.isUserInChat(user)) {
+            executor = chatRepository.getChatByUser(user).getExecutor();
         } else executor = freeUserExecutors;
-        Runnable messageHandler = new IncomingMessageHandler(session,message);
+        Runnable messageHandler = new IncomingMessageHandler(session, message);
         executor.execute(messageHandler);
     }
 
@@ -37,13 +44,13 @@ public class ChatServerEndpoint extends Endpoint {
     @OnClose
     public void onClose(Session session, CloseReason reason) {
 
-        if (repository.getExistingUsers().containsKey(session)) {
-            User user = repository.getExistingUsers().get(session);
-            if (user.hasInterlocutor()) {
-                user.getChat().end();
+        if (userDataRepository.getExistingUsers().containsKey(session)) {
+            User user = userDataRepository.getExistingUsers().get(session);
+            if (userService.isUserInChat(user)) {
+                chatService.endChat(chatRepository.getChatByUser(user));
             }
-            user.unfree();
-            user.unregister();
+            userService.unfreeUser(user);
+            userService.unregisterUser(user);
         }
     }
 

@@ -1,7 +1,5 @@
 package com.aleksandrtikh.tschat.server.repository;
 
-import com.aleksandrtikh.tschat.server.UserBooker;
-import com.aleksandrtikh.tschat.server.model.Chat;
 import com.aleksandrtikh.tschat.server.model.User;
 
 import javax.websocket.Session;
@@ -10,16 +8,14 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class UserDataRepository {
 
-    private static UserDataRepository instance;
+    private static UserDataRepository ourInstance = new UserDataRepository();
 
     public static UserDataRepository getInstance() {
-        if (instance == null) {
-            instance = new UserDataRepository();
-        }
-        return instance;
+        return ourInstance;
     }
 
-    private ConcurrentHashMap<User, Chat> activeChats;
+    private UserDataRepository() {}
+
     private ConcurrentHashMap<Session, User> existingUsers;
     private UserBooker userBooker;
 
@@ -31,20 +27,16 @@ public class UserDataRepository {
         this.userBooker = userBooker;
     }
 
-    public ConcurrentHashMap<User, Chat> getActiveChats() {
-        return activeChats;
-    }
-
-    public void setActiveChats(ConcurrentHashMap<User, Chat> activeChats) {
-        this.activeChats = activeChats;
-    }
-
     public ConcurrentHashMap<Session, User> getExistingUsers() {
         return existingUsers;
     }
 
     public void setExistingUsers(ConcurrentHashMap<Session, User> existingUsers) {
         this.existingUsers = existingUsers;
+    }
+
+    public User getUserBySession(Session session) {
+        return existingUsers.get(session);
     }
 }
 
