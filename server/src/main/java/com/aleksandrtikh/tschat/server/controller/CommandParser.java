@@ -35,12 +35,12 @@ public class CommandParser {
                     userRole = User.Role.CUSTOMER;
                     break;
                 default:
-                    return new WrongCommand(session, message.getContent(), "wrong role");
+                    return new WrongCommand(session, message.getContent(), WrongCommand.Cause.WRONG_USER_ROLE);
             }
             String userName = args[2];
             return new RegisterCommand(new User(userName, session, userRole));
         } else {
-            return new WrongCommand(session, message.getContent(), "unregistered user: use /register <role> <name>");
+            return new WrongCommand(session, message.getContent(), WrongCommand.Cause.UNREGISTERED);
         }
     }
 
@@ -63,7 +63,7 @@ public class CommandParser {
                 case CUSTOMER:
                     return new SaveMessageCommand(user, message);
                 case AGENT:
-                    return new WrongCommand(session, message.getContent(), "agent trying to send message without chat");
+                    return new WrongCommand(session, message.getContent(), WrongCommand.Cause.NO_CHAT);
                 default:
                     return null;
             }
@@ -74,15 +74,15 @@ public class CommandParser {
         switch (message.getCommandPrefix().toUpperCase()) {
             case LeaveCommand.COM_PREFIX: {
                 if (interlocutor == null) {
-                    return new WrongCommand(session, message.getContent(), "trying to leave without chat existing");
+                    return new WrongCommand(session, message.getContent(), WrongCommand.Cause.NO_CHAT);
                 } else if (user.getRole() == User.Role.AGENT) {
-                    return new WrongCommand(session, message.getContent(), "agents can't leave chat");
+                    return new WrongCommand(session, message.getContent(), WrongCommand.Cause.ACTION_DENIED);
                 } else return new LeaveCommand(user);
             }
             case ExitCommand.COM_PREFIX:
                 return new ExitCommand(user);
             default:
-                return new WrongCommand(session, message.getContent(), "wrong command");
+                return new WrongCommand(session, message.getContent(), null);
         }
     }
 }
