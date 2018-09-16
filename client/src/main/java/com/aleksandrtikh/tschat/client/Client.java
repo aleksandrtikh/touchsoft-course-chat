@@ -7,7 +7,6 @@ import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Scanner;
-
 import org.apache.log4j.*;
 
 

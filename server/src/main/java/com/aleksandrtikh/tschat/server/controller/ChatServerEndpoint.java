@@ -17,11 +17,12 @@ public class ChatServerEndpoint extends Endpoint {
 
     private static final ExecutorService freeUserExecutors = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
     private static final Logger log = Logger.getLogger(ChatServerEndpoint.class);
+    private UserDataRepository repository = UserDataRepository.getInstance();
 
     @OnMessage
     public void onMessage(Session session, Message message) {
         ExecutorService executor;
-        User user = UserDataRepository.getExistingUsers().get(session);
+        User user = repository.getExistingUsers().get(session);
         if (user != null && user.hasInterlocutor()) {
             executor = user.getChat().getExecutor();
         } else executor = freeUserExecutors;
@@ -35,8 +36,9 @@ public class ChatServerEndpoint extends Endpoint {
 
     @OnClose
     public void onClose(Session session, CloseReason reason) {
-        if (UserDataRepository.getExistingUsers().containsKey(session)) {
-            User user = UserDataRepository.getExistingUsers().get(session);
+
+        if (repository.getExistingUsers().containsKey(session)) {
+            User user = repository.getExistingUsers().get(session);
             if (user.hasInterlocutor()) {
                 user.getChat().end();
             }

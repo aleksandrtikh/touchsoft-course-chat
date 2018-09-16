@@ -16,9 +16,10 @@ public class IncomingMessageHandler implements Runnable {
     private final Session session;
 
     public void run() {
-        User user = UserDataRepository.getExistingUsers().get(session);
+        UserDataRepository repository = UserDataRepository.getInstance();
+        User user = repository.getExistingUsers().get(session);
         Chat chat = (user != null)
-                ? UserDataRepository.getActiveChats().get(user)
+                ? repository.getActiveChats().get(user)
                 : null;
         User interlocutor = (chat != null) ? chat.getInterlocutor(user) : null;
         Command command = new CommandParser(session,user,message, interlocutor).parse();

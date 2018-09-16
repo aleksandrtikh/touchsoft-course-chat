@@ -10,7 +10,7 @@ public class ChatConnector implements Runnable {
 
 
     public void run() {
-        UserBooker booker = UserDataRepository.getUserBooker();
+        UserBooker booker = UserDataRepository.getInstance().getUserBooker();
         if (booker.hasFreePair()) {
             User agent = booker.bookNextAgent();
             User customer = booker.bookNextCustomer();

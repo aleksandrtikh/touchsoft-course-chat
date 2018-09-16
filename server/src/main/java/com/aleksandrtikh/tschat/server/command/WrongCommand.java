@@ -16,7 +16,7 @@ public class WrongCommand implements Command {
     private final Session session;
 
     public void execute() {
-        String errorMessage = String.format("Command syntax error: %s in command: %s%n", cause, message);
+        String errorMessage = String.format("Command syntax error: %s in command: %s", cause, message);
         Message error = new Message(errorMessage, Message.MessageType.ERROR, WebSocketServerRunner.SERVER_NAME);
         try {
             session.getBasicRemote().sendObject(error);
@@ -30,4 +30,6 @@ public class WrongCommand implements Command {
         this.session = session;
         this.cause = cause;
     }
+
+
 }

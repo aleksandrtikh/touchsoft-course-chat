@@ -7,35 +7,44 @@ import com.aleksandrtikh.tschat.server.model.User;
 import javax.websocket.Session;
 import java.util.concurrent.ConcurrentHashMap;
 
+
 public class UserDataRepository {
 
+    private static UserDataRepository instance;
 
-    private static ConcurrentHashMap<User, Chat> activeChats;
-    private static ConcurrentHashMap<Session, User> existingUsers;
-    private static UserBooker userBooker;
+    public static UserDataRepository getInstance() {
+        if (instance == null) {
+            instance = new UserDataRepository();
+        }
+        return instance;
+    }
 
-    public static UserBooker getUserBooker() {
+    private ConcurrentHashMap<User, Chat> activeChats;
+    private ConcurrentHashMap<Session, User> existingUsers;
+    private UserBooker userBooker;
+
+    public UserBooker getUserBooker() {
         return userBooker;
     }
 
-    public static void setUserBooker(UserBooker userBooker) {
-        UserDataRepository.userBooker = userBooker;
+    public void setUserBooker(UserBooker userBooker) {
+        this.userBooker = userBooker;
     }
 
-    public static ConcurrentHashMap<User, Chat> getActiveChats() {
+    public ConcurrentHashMap<User, Chat> getActiveChats() {
         return activeChats;
     }
 
-    public static void setActiveChats(ConcurrentHashMap<User, Chat> activeChats) {
-        UserDataRepository.activeChats = activeChats;
+    public void setActiveChats(ConcurrentHashMap<User, Chat> activeChats) {
+        this.activeChats = activeChats;
     }
 
-    public static ConcurrentHashMap<Session, User> getExistingUsers() {
+    public ConcurrentHashMap<Session, User> getExistingUsers() {
         return existingUsers;
     }
 
-    public static void setExistingUsers(ConcurrentHashMap<Session, User> existingUsers) {
-        UserDataRepository.existingUsers = existingUsers;
+    public void setExistingUsers(ConcurrentHashMap<Session, User> existingUsers) {
+        this.existingUsers = existingUsers;
     }
 }
 

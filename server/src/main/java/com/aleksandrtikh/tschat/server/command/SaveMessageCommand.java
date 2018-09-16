@@ -10,7 +10,7 @@ public class SaveMessageCommand implements Command {
 
     public void execute() {
             user.getMessageBuffer().offer(message);
-            if (!UserDataRepository.getUserBooker().isUserFree(user)) {
+            if (!UserDataRepository.getInstance().getUserBooker().isUserFree(user)) {
                 user.free();
             }
     }

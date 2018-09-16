@@ -33,7 +33,7 @@ public class ChatEndpoint {
         if (message.getType() == Message.MessageType.CONFIRMATION) {
             Client.isRegistered = true;
             Client.username = message.getUsername();
-            System.out.printf("Successfully registered as.%s%n", message.getUsername());
+            System.out.printf("Successfully registered as %s%n", message.getUsername());
         } else {
             System.out.printf("%s: %s%n", message.getUsername(), message.getContent());
         }
@@ -42,8 +42,8 @@ public class ChatEndpoint {
     @OnClose
     public void onClose(Session session, CloseReason reason) {
         if (reason.getCloseCode() != CloseReason.CloseCodes.NORMAL_CLOSURE) {
-            System.out.println("Something went wrong, connection closed.");
-            Client.isWorking = false;
+            System.out.println("Something went wrong, connection closed.\nThe application will be closed now.");
+            System.exit(1);
         }
     }
 
